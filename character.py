@@ -27,12 +27,19 @@ class Character:
     # Handles the logic and moves at 400 pixels per second
     # TODO: Prevent moving faster diagonally
     def update(self, x_input: float, y_input: float, deltatime: float, is_pewing: bool):
+        # move based on x and y input
         self.x += x_input * deltatime * 400
         self.y += y_input * deltatime * 400
+        # The way this is reduced allows it to fall below 0 for 1 frame
+        # This is because if the framerate doesn't line up with the cooldown, it might be slowed down
+        # This makes it so as they are continually pressing the button, the missed time will accumulate until it kapows a frame earlier
+        # If they stop pressing it, then it resets to normal
         if self.kapow_cooldown > 0:
             self.kapow_cooldown -= deltatime
         else:
             self.kapow_cooldown = 0
+        # If they are "pewing" and the "kapow" is off cooldown, then "kapow"
+        # Todo: we will need to know which direction to do this in, and does it go to the mouse, or in the movement direction?
         if is_pewing and self.kapow_cooldown <= 0.0:
             self.kapow()
             self.kapow_cooldown += 0.25
