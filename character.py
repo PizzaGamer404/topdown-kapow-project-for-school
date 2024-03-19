@@ -25,11 +25,15 @@ class Character:
         self.kapow_cooldown = 0.0
 
     # Handles the logic and moves at 400 pixels per second
-    # TODO: Prevent moving faster diagonally
     def update(self, x_input: float, y_input: float, deltatime: float, is_pewing: bool):
         # move based on x and y input
         self.x += x_input * deltatime * 400
         self.y += y_input * deltatime * 400
+        # Normalize inputs if they are greater than 1
+        input_magnitude = (x_input ** 2 + y_input ** 2) ** 0.5
+        if input_magnitude > 1:
+            self.x /= input_magnitude
+            self.y /= input_magnitude
         # The way this is reduced allows it to fall below 0 for 1 frame
         # This is because if the framerate doesn't line up with the cooldown, it might be slowed down
         # This makes it so as they are continually pressing the button, the missed time will accumulate until it kapows a frame earlier
