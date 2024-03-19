@@ -42,6 +42,9 @@ while True:
         x_input = -1
     if keys[pygame.K_d]:
         x_input = 1
+    pewing = pygame.mouse.get_pressed()[0]
     # Todo: Update and draw stuff
+    room.update(FRAMETIME, x_input, y_input, pewing)
+    room.draw()
     pygame.display.flip()
     time.sleep(FRAMETIME)

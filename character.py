@@ -17,14 +17,12 @@ class Character:
     def update(self, x_input: float, y_input: float, deltatime: float, is_pewing: bool):
         mouse_pos = Vector(*pygame.mouse.get_pos())
         dir_to_mouse = (mouse_pos - self.position).normalize()
-        # move based on x and y input
-        self.position.x += x_input * deltatime * 400
-        self.position.y += y_input * deltatime * 400
         # Normalize inputs if they are greater than 1
-        input_magnitude = (x_input ** 2 + y_input ** 2) ** 0.5
-        if input_magnitude > 1:
-            self.position.x /= input_magnitude
-            self.position.y /= input_magnitude
+        input = Vector(x_input, y_input)
+        if input.magnitude > 1:
+            input = input.normalize()
+        # move based on x and y input
+        self.position += input * 400 * deltatime
         # The way this is reduced allows it to fall below 0 for 1 frame
         # This is because if the framerate doesn't line up with the cooldown, it might be slowed down
         # This makes it so as they are continually pressing the button, the missed time will accumulate until it kapows a frame earlier
@@ -45,7 +43,7 @@ class Character:
     
     # Draws the player on the screen (WHITE CIRCLE PLACEHOLDER, REPLACE WITH REAL IMAGE LATER)
     def draw(self, screen):
-        pygame.draw.circle(screen, (255, 255, 255), (self.x - 10, self.y - 10), 10)
+        pygame.draw.circle(screen, (255, 255, 255), (self.position.x - 10, self.position.y - 10), 10)
         for kapowllet in self.kapowllets:
             kapowllet.draw(screen)
 

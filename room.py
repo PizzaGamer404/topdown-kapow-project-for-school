@@ -22,9 +22,12 @@ class Room:
     def __init__(self, screen: pygame.Surface, player: Character):
         self.screen = screen
         self.player: Character = player
+    
+    def update(self, deltatime, x_input, y_input, pewing):
+        self.player.update(x_input,y_input,deltatime, pewing)
 
-    # Draws the room
-    def __draw__(self):
+    # Draws the room and player
+    def draw(self):
         self.screen.fill((0, 0, 0))
-        self.player.draw()
+        self.player.draw(self.screen)
         
