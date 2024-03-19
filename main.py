@@ -1,5 +1,6 @@
 # To run file: & "C:/Program Files/Blender Foundation/Blender 3.5/3.5/python/bin/python.exe" [file]
 # To install package: & "C:\Program Files\Blender Foundation\Blender 3.5\3.5\python\bin\python.exe" -m pip install [package]
+
 import pygame
 import time
 
@@ -19,3 +20,28 @@ room = Room(screen, player)
 # Record WASD Arrow Key
 # character.move(up, down)
 # Call update loops
+
+FRAMERATE = 60
+FRAMETIME = 1/FRAMERATE
+
+while True:
+    # Listen for inputs
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+    # Record WASD Arrow Key
+    keys = pygame.key.get_pressed()
+    x_input = 0
+    y_input = 0
+    if keys[pygame.K_w]:
+        y_input = -1
+    if keys[pygame.K_s]:
+        y_input = 1
+    if keys[pygame.K_a]:
+        x_input = -1
+    if keys[pygame.K_d]:
+        x_input = 1
+    # Todo: Update and draw stuff
+    pygame.display.flip()
+    time.sleep(FRAMETIME)
