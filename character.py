@@ -12,7 +12,6 @@ class Character:
         self.kapow_cooldown = 0.0
         # Holds kapowllets
         self.kapowllets: list[Kapowllet] = []
-
     # Handles the logic and moves at 400 pixels per second
     def update(self, x_input: float, y_input: float, deltatime: float, is_pewing: bool):
         mouse_pos = Vector(*pygame.mouse.get_pos())
@@ -43,7 +42,7 @@ class Character:
     
     # Draws the player on the screen (WHITE CIRCLE PLACEHOLDER, REPLACE WITH REAL IMAGE LATER)
     def draw(self, screen):
-        pygame.draw.circle(screen, (255, 255, 255), (self.position.x - 10, self.position.y - 10), 10)
+        pygame.draw.circle(screen, (80, 199, 199), (self.position.x - 10, self.position.y - 10), 10)
         for kapowllet in self.kapowllets:
             kapowllet.draw(screen)
 
@@ -51,7 +50,7 @@ class Character:
     def kapow(self, direction):
         # Create a bullet traveling 800 pixels per second
         bullet = Kapowllet(self.position, direction * 800)
-        # Records it
+        # Records itlli
         self.kapowllets.append(bullet)
 
 # Class to handle the logic and behaviour of the "kapowllets"
@@ -66,4 +65,4 @@ class Kapowllet:
         self.age += delatime
     
     def draw(self, screen):
-        pygame.draw.circle(screen, (200, 50, 50), (self.postion.x - 3, self.postion.y - 3), 3)
+        pygame.draw.circle(screen, (80,199,199), (self.postion.x - 3, self.postion.y - 3), 3)

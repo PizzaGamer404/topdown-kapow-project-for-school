@@ -1,5 +1,7 @@
 from typing import Union
 from dataclasses import dataclass
+
+# He's commiting crime, with both DIRECTIONS ... AND MAGNITUDE!! OH YEAH!
 @dataclass
 class Vector:
     def __init__(self, x: float, y: float):
@@ -41,3 +43,6 @@ class Vector:
         if index == 1:
             self.y = value
         raise IndexError("Index out of range")
+
+    def to_tuple(self) -> tuple[float, float]:
+        return self.x, self.y
