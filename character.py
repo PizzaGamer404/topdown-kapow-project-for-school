@@ -5,8 +5,9 @@ from vector import Vector
 # Class to handle the logic and behaviour of the player
 class Character:
     # Creates the player
-    def __init__(self, screen: pygame.Surface):
+    def __init__(self, screen: pygame.Surface, room):
         self.health = 3
+        self.room = room
         self.position: Vector = Vector(screen.get_width()/2, screen.get_height() / 2)
         # Creates a cooldown between when they can "kapow"
         self.kapow_cooldown = 0.0
@@ -39,7 +40,16 @@ class Character:
         # Update kapowllets
         for kapowllet in self.kapowllets:
             kapowllet.update_kapowllet(deltatime)
-    
+
+        # Clamp to be within the screen. self.room.width, self.room.height show the size of the screen
+        if self.position.x > self.room.width - 100 :
+            self.position.x = self.room.width - 100
+        elif self.position.x < 0:
+            self.position.x = 0
+        if self.position.y > self.room.height - 100:
+            self.position.y = self.room.height - 100
+        elif self.position.y < 0:
+            self.position.y = 0
     # Draws the player on the screen (WHITE CIRCLE PLACEHOLDER, REPLACE WITH REAL IMAGE LATER)
     def draw(self, screen):
         pygame.draw.circle(screen, (80, 199, 199), (self.position.x - 10, self.position.y - 10), 10)
@@ -49,20 +59,29 @@ class Character:
     # Todo: Implement. Needs to be passed to the room so it can be updated, or it can be updated in the character class
     def kapow(self, direction):
         # Create a bullet traveling 800 pixels per second
-        bullet = Kapowllet(self.position, direction * 800)
+        bullet = Kapowllet(self.position, direction * 800, self.room)
         # Records itlli
         self.kapowllets.append(bullet)
 
 # Class to handle the logic and behaviour of the "kapowllets"
 class Kapowllet:
-    def __init__(self, position, velocity):
-        self.postion: Vector = position
+    def __init__(self, position, velocity, room):
+        self.position: Vector = position
         self.velocity: Vector = velocity
+        self.room = room
         self.age: float = 0
+        self.damage = 25
         
     def update_kapowllet(self, delatime):
-        self.postion += (self.velocity * delatime)
+        self.position += (self.velocity * delatime)
         self.age += delatime
-    
+
+        for enemy in self.room.enemies:
+            if (enemy.position - self.position).magnitude < (3 + enemy.radius):
+                enemy.health -= self.damage
+                if enemy.health <= 0:
+                    self.room.enemies.remove(enemy)
+
+
     def draw(self, screen):
-        pygame.draw.circle(screen, (80,199,199), (self.postion.x - 3, self.postion.y - 3), 3)
+        pygame.draw.circle(screen, (255,255,255), (self.position.x - 3, self.position.y - 3), 3)
