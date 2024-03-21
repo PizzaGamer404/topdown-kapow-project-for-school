@@ -19,6 +19,9 @@ class Vector:
             return Vector(self.x * scalar.x, self.y * scalar.y)
         return Vector(self.x * scalar, self.y * scalar)
     
+    def __eq__(self, other: 'Vector') -> bool:
+        return self.x == other.x and self.y == other.y
+    
     def normalize(self) -> 'Vector':
         magnitude = (self.x ** 2 + self.y ** 2) ** 0.5
         return Vector(self.x / magnitude, self.y / magnitude)
@@ -46,3 +49,14 @@ class Vector:
 
     def to_tuple(self) -> tuple[float, float]:
         return self.x, self.y
+    
+    def move_towards(self, target: 'Vector', amount: float):
+        offset = target - self
+        distance = offset.magnitude
+        if distance <= amount:
+            return target
+        proportion = amount / distance
+        return self * (1-proportion) + target * (proportion)
+
+def lerp(a: Vector, b: Vector, t: float) -> float:
+    return a * (1-t) + b * t

@@ -1,4 +1,4 @@
-# To run file: & "C:/Program Files/Blender Foundation/Blender 3.5/3.5/python/bin/python.exe" [file]
+# To run file: & "C:/Program Files/Blender Foundation/Blender 3.5/3.5/python/bin/python.exe" main.py
 # To install package: & "C:\Program Files\Blender Foundation\Blender 3.5\3.5\python\bin\python.exe" -m pip install [package]
 # & "C:\Program Files\Blender Foundation\Blender 3.5\3.5\python\bin\python.exe" -m pip install --upgrade pip
 import pygame
@@ -11,9 +11,10 @@ from room import Room
 screen = pygame.display.set_mode((500, 500))
 time.sleep(1)
 
+player = Character(screen)
+
 # Creates the player and room
-room = Room(screen)
-player = room.player
+room = Room(screen, player)
 
 
 # TODO: 
