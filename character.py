@@ -2,6 +2,9 @@
 import pygame
 from vector import Vector
 
+smile = pygame.image.load('smil.png')
+smile_size = Vector(smile.get_width(), smile.get_height())
+
 # Class to handle the logic and behaviour of the player
 class Character:
     # Creates the player
@@ -12,8 +15,13 @@ class Character:
         self.kapow_cooldown = 0.0
         # Holds kapowllets
         self.kapowllets: list[Kapowllet] = []
+        self.normal_color = (80, 199, 199)
+        self.invincible_color_1 = (60, 149, 149)
+        self.invincible_color_2 = (80//2, 199//2, 199//2)
+        self.damage_invincibility: float = 0
     # Handles the logic and moves at 400 pixels per second
     def update(self, x_input: float, y_input: float, deltatime: float, is_pewing: bool, room):
+        self.damage_invincibility -= deltatime
         mouse_pos = Vector(*pygame.mouse.get_pos())
         dir_to_mouse = (mouse_pos - self.position).normalize()
         # Normalize inputs if they are greater than 1
@@ -50,10 +58,21 @@ class Character:
         elif self.position.y < 10:
             self.position.y = 10
     # Draws the player on the screen (WHITE CIRCLE PLACEHOLDER, REPLACE WITH REAL IMAGE LATER)
-    def draw(self, screen):
-        pygame.draw.circle(screen, (80, 199, 199), (self.position.x, self.position.y), 10)
+    def draw(self, screen: pygame.Surface):
+        if self.damage_invincibility <= 0:
+            pygame.draw.circle(screen, (80, 199, 199), (self.position.x, self.position.y), 10)
+        # Alternates invincibility color
+        elif self.damage_invincibility % 1 < 0.5:
+            pygame.draw.circle(screen, self.invincible_color_1, (self.position.x, self.position.y), 10)
+        else:
+            pygame.draw.circle(screen, self.invincible_color_2, (self.position.x, self.position.y), 10)
+        # Draw kapowllets
         for kapowllet in self.kapowllets:
             kapowllet.draw(screen)
+        # Draw health
+        for i in range(self.health):
+            pygame.draw.circle(screen, (125, 125, 125), (50 + i*25, screen.get_height()-50), 9)
+            screen.blit(smile, (50 + i*25 - smile_size[0]//2, screen.get_height() - 50 - smile_size[1]//2))
 
     # Todo: Implement. Needs to be passed to the room so it can be updated, or it can be updated in the character class
     def kapow(self, direction, room):
@@ -63,7 +82,10 @@ class Character:
         self.kapowllets.append(bullet)
     
     def take_damage(self):
+        if self.damage_invincibility > 0:
+            return
         self.health -= 1
+        self.damage_invincibility = 3
 
 # Class to handle the logic and behaviour of the "kapowllets"
 class Kapowllet:

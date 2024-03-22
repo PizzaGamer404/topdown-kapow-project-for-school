@@ -5,17 +5,13 @@ import pygame
 import time
 
 from character import Character
-from room import Room
+from room import LevelRoom
 
 # Create a 500x500 pixel screen
 screen = pygame.display.set_mode((500, 500))
 time.sleep(1)
 
-player = Character(screen)
-
-# Creates the player and room
-room = Room(screen, player)
-
+PLAYER = Character(screen)
 
 # TODO: 
 # Listen for inputs
@@ -26,7 +22,8 @@ room = Room(screen, player)
 FRAMERATE = 60
 FRAMETIME = 1/FRAMERATE
 
-while True:
+def update_level_room(room: LevelRoom):
+    time.sleep(FRAMETIME)
     # Listen for inputs
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -45,8 +42,17 @@ while True:
     if keys[pygame.K_d]:
         x_input = 1
     pewing = pygame.mouse.get_pressed()[0]
-    # Todo: Update and draw stuff
     room.update(FRAMETIME, x_input, y_input, pewing)
     room.draw()
     pygame.display.flip()
-    time.sleep(FRAMETIME)
+
+while True:
+    room: LevelRoom = LevelRoom(screen, PLAYER)
+    time_empty = 0
+    while True:
+        # End the loop after 2 second with no enemoes
+        if len(room.enemies) == 0:
+            time_empty += FRAMETIME
+            if time_empty > 2:
+                break
+        update_level_room(room)

@@ -5,7 +5,7 @@ from enemies import NormalEnemy
 from character import Character
 import random
 
-class Room:
+class LevelRoom:
     # Width of the screen
     @property
     def width(self) -> int:

@@ -23,6 +23,7 @@ class NormalEnemy:
         
         if (self.position - self.player.position).magnitude < self.radius + 10:
             self.player.take_damage()
+            self.speed_multiplier = 0
         
     def draw(self):
         # Draw line from position to taget position
