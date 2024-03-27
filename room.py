@@ -21,7 +21,7 @@ class LevelRoom:
     def center(self) -> tuple[int, int]:
         return self.screen.get_width() // 2, self.screen.get_height() // 2
 
-    # Initializez the room
+    # Initializes the room
     def __init__(self, screen: pygame.Surface, player: Character):
         self.screen = screen
         self.player: Character = player

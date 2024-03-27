@@ -12,17 +12,12 @@ screen = pygame.display.set_mode((500, 500))
 time.sleep(1)
 
 PLAYER = Character(screen)
-
-# TODO: 
-# Listen for inputs
-# Record WASD Arrow Key
-# character.move(up, down)
-# Call update loops
-
 FRAMERATE = 60
 FRAMETIME = 1/FRAMERATE
 
 def update_level_room(room: LevelRoom):
+    if Character.health <= 0:
+        pygame.quit()
     time.sleep(FRAMETIME)
     # Listen for inputs
     for event in pygame.event.get():
