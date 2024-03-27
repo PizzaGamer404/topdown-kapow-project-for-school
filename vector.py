@@ -13,6 +13,9 @@ class Vector:
     
     def __sub__(self, other: 'Vector') -> 'Vector':
         return Vector(self.x - other.x, self.y - other.y)
+
+    def __neg__(self):
+        return Vector(-self.x, -self.y)
     
     def __mul__(self, scalar: Union[float, 'Vector']) -> 'Vector':
         if isinstance(scalar, Vector):

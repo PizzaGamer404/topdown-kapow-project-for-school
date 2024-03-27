@@ -8,15 +8,19 @@ from character import Character
 from room import LevelRoom
 
 # Create a 500x500 pixel screen
-screen = pygame.display.set_mode((500, 500))
+screen = pygame.display.set_mode((750, 750))
 time.sleep(1)
 
 PLAYER = Character(screen)
 FRAMERATE = 60
 FRAMETIME = 1/FRAMERATE
 
+# Force upgrade player for test
+from upgrades import SidewaysDefense
+PLAYER.upgrades.append(SidewaysDefense(screen, PLAYER))
+
 def update_level_room(room: LevelRoom):
-    if Character.health <= 0:
+    if PLAYER.health <= 0:
         pygame.quit()
     time.sleep(FRAMETIME)
     # Listen for inputs

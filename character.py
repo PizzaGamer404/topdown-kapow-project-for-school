@@ -19,6 +19,7 @@ class Character:
         self.invincible_color_1 = (60, 149, 149)
         self.invincible_color_2 = (80//2, 199//2, 199//2)
         self.damage_invincibility: float = 0
+        self.upgrades = []
     # Handles the logic and moves at 400 pixels per second
     def update(self, x_input: float, y_input: float, deltatime: float, is_pewing: bool, room):
         self.damage_invincibility -= deltatime
@@ -57,6 +58,11 @@ class Character:
             self.position.y = room.height - 10
         elif self.position.y < 10:
             self.position.y = 10
+        
+
+        # Run upgrades
+        for u in self.upgrades:
+            u.update(room, x_input, y_input, is_pewing, deltatime)
     # Draws the player on the screen (WHITE CIRCLE PLACEHOLDER, REPLACE WITH REAL IMAGE LATER)
     def draw(self, screen: pygame.Surface):
         if self.damage_invincibility <= 0:
@@ -73,13 +79,16 @@ class Character:
         for i in range(self.health):
             pygame.draw.circle(screen, (125, 125, 125), (50 + i*25, screen.get_height()-50), 9)
             screen.blit(smile, (50 + i*25 - smile_size[0]//2, screen.get_height() - 50 - smile_size[1]//2))
+        
+        for u in self.upgrades:
+            u.draw()
 
     # Todo: Implement. Needs to be passed to the room so it can be updated, or it can be updated in the character class
-    def kapow(self, direction, room):
+    def kapow(self, direction, room, damage=25):
         # Create a bullet traveling 800 pixels per second
-        bullet = Kapowllet(self.position, direction * 800, room)
+        kapowlette = Kapowllet(self.position, direction * 800, room, damage)
         # Records itlli
-        self.kapowllets.append(bullet)
+        self.kapowllets.append(kapowlette)
     
     def take_damage(self):
         if self.damage_invincibility > 0:
@@ -89,23 +98,24 @@ class Character:
 
 # Class to handle the logic and behaviour of the "kapowllets"
 class Kapowllet:
-    def __init__(self, position, velocity, room):
+    def __init__(self, position, velocity, room, damage=25, radius=3):
         self.position: Vector = position
         self.velocity: Vector = velocity
         self.room = room
         self.age: float = 0
-        self.damage = 25
+        self.damage = damage
+        self.radius = radius
         
     def update_kapowllet(self, delatime):
         self.position += (self.velocity * delatime)
         self.age += delatime
 
         for enemy in self.room.enemies:
-            if (enemy.position - self.position).magnitude < (3 + enemy.radius):
+            if (enemy.position - self.position).magnitude < (self.radius + enemy.radius):
                 enemy.health -= self.damage
                 if enemy.health <= 0:
                     self.room.enemies.remove(enemy)
 
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (255,255,255), (self.position.x, self.position.y), 3)
+        pygame.draw.circle(screen, (255,255,255), (self.position.x, self.position.y), self.radius)

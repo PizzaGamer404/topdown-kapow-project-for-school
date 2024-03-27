@@ -1,7 +1,7 @@
 # C:\Users\Student\AppData\Roaming\Python\Python310\Scripts
 import pygame
 from vector import Vector
-from enemies import NormalEnemy
+from enemies import NormalEnemy, HeavyEnemy, LightEnemy
 from character import Character
 import random
 
@@ -25,7 +25,9 @@ class LevelRoom:
     def __init__(self, screen: pygame.Surface, player: Character):
         self.screen = screen
         self.player: Character = player
-        self.enemies = [NormalEnemy(self.player, Vector(random.uniform(0, self.width), random.uniform(0, self.height)), screen) for _ in range(15)]
+        self.enemies = [NormalEnemy(self.player, Vector(random.uniform(0, self.width), random.uniform(0, self.height)), screen) for _ in range(10)]
+        self.enemies += [HeavyEnemy(self.player, Vector(random.uniform(0, self.width), random.uniform(0, self.height)), screen) for _ in range(2)]
+        self.enemies += [LightEnemy(self.player, Vector(random.uniform(0, self.width), random.uniform(0, self.height)), screen) for _ in range(10)]
 
     
     def update(self, deltatime, x_input, y_input, pewing):
