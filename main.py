@@ -22,10 +22,11 @@ FRAMETIME = 1/FRAMERATE
 from upgrades import SidewaysDefense, PeriodicExplode, AimAssist
 
 upgrade_pool = [SidewaysDefense(screen, PLAYER), PeriodicExplode(screen, PLAYER), AimAssist(screen, PLAYER)]
+font = pygame.font.Font(None, 36)
+font_small = pygame.font.Font(None, 24)
 
 def upgrade_selector():
     # shuffle pool
-    font = pygame.font.Font(None, 36)
     random.shuffle(upgrade_pool)
     # Skip if no upgrades
     if len(upgrade_pool) == 0:
@@ -61,6 +62,7 @@ def upgrade_selector():
             PLAYER.upgrades.append(upgrade_pool[2])
             del upgrade_pool[2]
             return
+room_count = 0
 
 def update_level_room(room: LevelRoom):
     if PLAYER.health <= 0:
@@ -86,9 +88,11 @@ def update_level_room(room: LevelRoom):
     pewing = pygame.mouse.get_pressed()[0]
     room.update(FRAMETIME, x_input, y_input, pewing)
     room.draw()
+    # Draw room counter
+    room_counter = font_small.render("Room: " + str(room_count), True, (255, 255, 255))
+    screen.blit(room_counter, (10, 10))
     pygame.display.flip()
 
-room_count = 0
 
 while True:
     room_count += 1
@@ -101,4 +105,5 @@ while True:
             if time_empty > 1:
                 break
         update_level_room(room)
+    # if room_count % 3 == 0:
     upgrade_selector()
