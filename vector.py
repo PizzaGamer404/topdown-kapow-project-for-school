@@ -7,7 +7,7 @@ class Vector:
     def __init__(self, x: float, y: float):
         self.x: float = x
         self.y: float = y
-    
+    # Implements math operations
     def __add__(self, other: 'Vector') -> 'Vector':
         return Vector(self.x + other.x, self.y + other.y)
     

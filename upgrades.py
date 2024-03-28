@@ -1,7 +1,6 @@
 from character import Character, Kapowllet
 from vector import Vector, dot
 import pygame
-import math
 
 class SidewaysDefense:
     def __init__(self, screen, player):

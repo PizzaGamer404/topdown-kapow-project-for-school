@@ -15,7 +15,9 @@ class NormalEnemy:
     def update(self,deltatime):
         self.speed_multiplier = min(self.speed_multiplier + deltatime/2, 1)
         self.position = self.position.move_towards(self.target_position, 250*deltatime*self.speed_multiplier)
+        # Tries to move to positions between the enemy and the player which will lead it to the player over time without going in a perfectly direct path
         if self.position == self.target_position:
+            # Has a small chance to go to a complete random position instead of the player to make it less predictable
             if random.randrange(10) > 0:
                 self.target_position = lerp(self.position, self.player.position, random.uniform(0.5, 1))
             else:

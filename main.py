@@ -75,6 +75,7 @@ def update_level_room(room: LevelRoom):
             exit()
     # Record WASD Arrow Key
     keys = pygame.key.get_pressed()
+    # Reads WASD inputs
     x_input = 0
     y_input = 0
     if keys[pygame.K_w]:
@@ -85,12 +86,15 @@ def update_level_room(room: LevelRoom):
         x_input = -1
     if keys[pygame.K_d]:
         x_input = 1
-    pewing = pygame.mouse.get_pressed()[0]
+    # Reads m1 or spacebar for pewing
+    pewing = pygame.mouse.get_pressed()[0] or keys[pygame.K_SPACE]
+    # Call update and draw functions
     room.update(FRAMETIME, x_input, y_input, pewing)
     room.draw()
     # Draw room counter
     room_counter = font_small.render("Room: " + str(room_count), True, (255, 255, 255))
     screen.blit(room_counter, (10, 10))
+    # Finally update the screen
     pygame.display.flip()
 
 
