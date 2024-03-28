@@ -22,12 +22,17 @@ class LevelRoom:
         return self.screen.get_width() // 2, self.screen.get_height() // 2
 
     # Initializes the room
-    def __init__(self, screen: pygame.Surface, player: Character):
+    def __init__(self, screen: pygame.Surface, player: Character, l_enemies: int = 10, n_enemies: int = 10, h_enemies: int = 2):
         self.screen = screen
         self.player: Character = player
-        self.enemies = [NormalEnemy(self.player, Vector(random.uniform(0, self.width), random.uniform(0, self.height)), screen) for _ in range(10)]
-        self.enemies += [HeavyEnemy(self.player, Vector(random.uniform(0, self.width), random.uniform(0, self.height)), screen) for _ in range(2)]
-        self.enemies += [LightEnemy(self.player, Vector(random.uniform(0, self.width), random.uniform(0, self.height)), screen) for _ in range(10)]
+        self.enemies = [NormalEnemy(self.player, Vector(random.uniform(0, self.width), random.uniform(0, self.height)), screen) for _ in range(n_enemies)] if n_enemies > 0 else []
+        self.enemies += [HeavyEnemy(self.player, Vector(random.uniform(0, self.width), random.uniform(0, self.height)), screen) for _ in range(h_enemies)] if h_enemies > 0 else []
+        self.enemies += [LightEnemy(self.player, Vector(random.uniform(0, self.width), random.uniform(0, self.height)), screen) for _ in range(l_enemies)] if l_enemies > 0 else []
+
+        # Reposition enemies too close to the player
+        for e in self.enemies:
+            while (e.position - self.player.position).magnitude < 50:
+                e.position = Vector(random.uniform(0, self.width), random.uniform(0, self.height))
 
     
     def update(self, deltatime, x_input, y_input, pewing):

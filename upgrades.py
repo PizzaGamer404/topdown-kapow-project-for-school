@@ -25,7 +25,6 @@ class SidewaysDefense:
             right_kp = Kapowllet(self.player.position - left_vel * time_passed, -left_vel, room, 10, 2)
             self.kplts.append(left_kp)
             self.kplts.append(right_kp)
-            print("SPAWNING")
 
         self.kplts = [k for k in self.kplts if k.age < 1]
 
