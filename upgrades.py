@@ -18,11 +18,11 @@ class SidewaysDefense:
 
         while self.timer <= 0:
             time_passed = -self.timer
-            self.timer += 0.25
-            # left_kp = Kapowllet(self.player.position + left_vel * time_passed, left_vel, room, 7, 2)
-            # right_kp = Kapowllet(self.player.position - left_vel * time_passed, -left_vel, room, 7, 2)
-            left_kp = Kapowllet(self.player.position * time_passed, left_vel, room, 7, 2)
-            right_kp = Kapowllet(self.player.position * time_passed, -left_vel, room, 7, 2)
+            self.timer += 0.1
+            left_kp = Kapowllet(self.player.position + left_vel * time_passed, left_vel, room, 7, 2)
+            right_kp = Kapowllet(self.player.position - left_vel * time_passed, -left_vel, room, 7, 2)
+            # left_kp = Kapowllet(self.player.position * time_passed, left_vel, room, 7, 2)
+            # right_kp = Kapowllet(self.player.position * time_passed, -left_vel, room, 7, 2)
             self.kplts.append(left_kp)
             self.kplts.append(right_kp)
             print("SPAWNING")

@@ -81,4 +81,5 @@ class LightEnemy:
     def draw(self):
         # Draw line from position to taget position
         # pygame.draw.line(self.screen, (255, 255, 255), self.position.to_tuple(), self.target_position.to_tuple(), 2)
-        pygame.draw.circle(self.screen, (0, 0, 255), (self.position).to_tuple(), self.radius)
+        pygame.draw.circle(self.screen, (100, 100, 255), (self.position).to_tuple(), self.radius)
+        pygame.draw.circle(self.screen, (100, 100, 255), (self.position).to_tuple(), self.radius)
