@@ -109,5 +109,5 @@ while True:
             if time_empty > 1:
                 break
         update_level_room(room)
-    # if room_count % 3 == 0:
-    upgrade_selector()
+    if room_count % 3 == 0:
+        upgrade_selector()
