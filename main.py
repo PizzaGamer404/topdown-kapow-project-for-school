@@ -16,8 +16,8 @@ FRAMERATE = 60
 FRAMETIME = 1/FRAMERATE
 
 # Force upgrade player for test
-from upgrades import SidewaysDefense
-PLAYER.upgrades.append(SidewaysDefense(screen, PLAYER))
+from upgrades import SidewaysDefense, PeriodicExplode, AimAssist
+PLAYER.upgrades.append(AimAssist(screen, PLAYER))
 
 def update_level_room(room: LevelRoom):
     if PLAYER.health <= 0:

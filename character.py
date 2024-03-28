@@ -85,6 +85,8 @@ class Character:
 
     # Todo: Implement. Needs to be passed to the room so it can be updated, or it can be updated in the character class
     def kapow(self, direction, room, damage=25):
+        # FIlter kapowllets that are too old
+        self.kapowllets = [kapowllet for kapowllet in self.kapowllets if kapowllet.age < 2]
         # Create a bullet traveling 800 pixels per second
         kapowlette = Kapowllet(self.position, direction * 800, room, damage)
         # Records itlli
@@ -113,8 +115,6 @@ class Kapowllet:
         for enemy in self.room.enemies:
             if (enemy.position - self.position).magnitude < (self.radius + enemy.radius):
                 enemy.health -= self.damage
-                if enemy.health <= 0:
-                    self.room.enemies.remove(enemy)
 
 
     def draw(self, screen):

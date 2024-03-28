@@ -32,6 +32,8 @@ class LevelRoom:
     
     def update(self, deltatime, x_input, y_input, pewing):
         self.player.update(x_input,y_input,deltatime, pewing, self)
+        # Remove enemies with health at or below 0
+        self.enemies = [enemy for enemy in self.enemies if enemy.health > 0]
         for enemy in self.enemies:
             enemy.update(deltatime)
 

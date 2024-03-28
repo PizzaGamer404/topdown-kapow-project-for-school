@@ -63,3 +63,6 @@ class Vector:
 
 def lerp(a: Vector, b: Vector, t: float) -> float:
     return a * (1-t) + b * t
+
+def dot(a: Vector, b: Vector):
+    return a.x * b.x + a.y * b.y
